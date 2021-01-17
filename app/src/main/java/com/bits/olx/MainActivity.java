@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bits.olx.api_interfaces.JsonPlaceHolderApi;
 import com.bits.olx.models.Posts;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,16 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.text_view_result);
 
-
-        OkHttpClient eagerClient = client.newBuilder()
-                .readTimeout(50000, TimeUnit.MILLISECONDS)
-                .build();
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(eagerClient)
+                .client(new OkHttpClient())
                 .build();
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
@@ -72,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Posts>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "on failure :(", Toast.LENGTH_SHORT).show();
                 textView.setText(t.getMessage());
             }
         });
