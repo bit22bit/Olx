@@ -49,24 +49,24 @@ public class AddPost extends AppCompatActivity {
             }
         });
 
-//        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-//        bottomNav.setSelectedItemId(R.id.nav_posts);
-//
-//        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                switch (menuItem.getItemId()){
-//                    case R.id.nav_home:startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
-//                    case R.id.nav_posts: return true;
-//                    case R.id.nav_save:startActivity(new Intent(getApplicationContext(), Save.class));
-//                        overridePendingTransition(0,0);
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_add);
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.nav_add: return true;
+                    case R.id.nav_posts:startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.nav_profile:startActivity(new Intent(getApplicationContext(), Profile.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
 
     }
     private boolean validate(String title,String prices,String details){
