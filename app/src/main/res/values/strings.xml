@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Olx</string>
+    <string name="minimum_password">6 characters required</string>
+    <string name="auth_failed">Authentication failed</string>
 </resources>
