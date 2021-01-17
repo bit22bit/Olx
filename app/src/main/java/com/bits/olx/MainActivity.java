@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         tread = findViewById(R.id.read);
         db = FirebaseFirestore.getInstance();
 
-        db.collection("ItemDeatails")
+        db.collection("Productdetails")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
