@@ -6,6 +6,14 @@ public class Posts {
     private String price;
     private String detail;
 
+    public Posts(){}
+
+    public Posts(String heading, String price, String detail) {
+        this.heading = heading;
+        this.price = price;
+        this.detail = detail;
+    }
+
     public String getHeading() {
         return heading;
     }
