@@ -37,7 +37,7 @@ public class Profile extends AppCompatActivity {
 
     CircleImageView profile_image;
     TextView username,name;
-    Button logout;
+    Button record, logout;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -49,10 +49,10 @@ public class Profile extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("");
 
         profile_image = findViewById(R.id.profileimage);
         username = findViewById(R.id.username);
+        record = findViewById(R.id.record);
         logout = findViewById(R.id.logout);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -74,6 +74,13 @@ public class Profile extends AppCompatActivity {
                     case R.id.nav_profile: return true;
                 }
                 return false;
+            }
+        });
+
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Profile.this, Record.class));
             }
         });
 
