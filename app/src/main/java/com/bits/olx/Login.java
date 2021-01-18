@@ -17,12 +17,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
     private Button signup, login;
     private FirebaseAuth myAuth;
     private TextView inputemail, inputpassword;
     private Toolbar toolbar;
+    FirebaseUser firebaseUser;
+
+    protected void onStart() {
+        super.onStart();
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (firebaseUser != null){
+            Intent intent = new Intent(Login.this, Profile.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +47,6 @@ public class Login extends AppCompatActivity {
         inputemail = (TextView) findViewById(R.id.email);
         inputpassword = (EditText) findViewById(R.id.pass);
         myAuth = FirebaseAuth.getInstance();
-//        toolbar = findViewById(R.id.mytoolbar);
-//
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override

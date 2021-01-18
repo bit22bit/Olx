@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/nav_setting"
         android:icon="@drawable/ic_posts"
         android:title="Messages" />
 
     <item
-        android:id="@+id/nav_login"
+        android:id="@+id/nav_logout"
         android:icon="@drawable/ic_posts"
-        android:title="SignUp" />
+        android:title="Logout"
+        app:showAsAction="never"/>
 </menu>

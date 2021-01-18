@@ -38,13 +38,8 @@ public class Signup extends AppCompatActivity {
         joinus=(Button)findViewById(R.id.join);
         myAuth=FirebaseAuth.getInstance();
 
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
-//        setSupportActionBar(myToolbar);
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("Register");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(myToolbar);
 
         joinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +58,8 @@ public class Signup extends AppCompatActivity {
                 else {
                     register(username, email, password);
                     Toast.makeText(Signup.this, "Info registered successfully!", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(Signup.this, Login.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(Signup.this, Login.class);
+                    startActivity(intent);
                 }
             }
         });

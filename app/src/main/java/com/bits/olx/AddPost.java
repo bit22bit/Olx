@@ -1,7 +1,9 @@
 package com.bits.olx;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,11 +21,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.net.URI;
+
 public class AddPost extends AppCompatActivity {
-    private Button post,read;
+    private Button post,read,choosebtn;
     private TextView heading,price,detail;
+    private  static final int PICK_IMAGE_REQUEST = 1;
 
-
+    private URI mImageUri;
     FirebaseFirestore db= FirebaseFirestore.getInstance();
 
     @Override
@@ -33,8 +38,20 @@ public class AddPost extends AppCompatActivity {
         heading=findViewById(R.id.heading);
         price=findViewById(R.id.price);
         detail=findViewById(R.id.detail);
+//        choosebtn=findViewById(R.id.choose_image);
         post=findViewById(R.id.button2);
         read=findViewById(R.id.button3);
+
+//        choosebtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openFile();
+//            }
+//        });
+
+        Toolbar toolbar = findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +86,23 @@ public class AddPost extends AppCompatActivity {
         });
 
     }
-    private boolean validate(String title,String prices,String details){
+//    private void  openFile(){
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+//    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == PICK_IMAGE_REQUEST && resultCode ==  RESULT_OK && data != null && data.getData() != null){
+//            mImageUri= data.getData();
+//        }
+//    }
+
+    private boolean validate(String title, String prices, String details){
         if(title.isEmpty()){
             heading.setError("Title Required");
             heading.requestFocus();

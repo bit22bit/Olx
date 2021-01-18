@@ -13,8 +13,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.bits.olx.models.User;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -33,7 +36,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Profile extends AppCompatActivity {
 
     CircleImageView profile_image;
-    TextView username;
+    TextView username,name;
+    Button logout;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -45,9 +49,11 @@ public class Profile extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("");
 
         profile_image = findViewById(R.id.profileimage);
         username = findViewById(R.id.username);
+        logout = findViewById(R.id.logout);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("User").child(firebaseUser.getUid());
@@ -71,6 +77,17 @@ public class Profile extends AppCompatActivity {
             }
         });
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Profile.this, Login.class));
+                finish();
+
+            }
+        });
+
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -91,16 +108,6 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPager viewPager = findViewById(R.id.view_pager);
-
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
-        viewPagerAdapter.addFragment(new UsersFragment(), "Users");
-
-        viewPager.setAdapter(viewPagerAdapter);
-
-        tabLayout.setupWithViewPager(viewPager);
 
     }
 
@@ -115,7 +122,7 @@ public class Profile extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Profile.this, MainActivity.class));
+                startActivity(new Intent(Profile.this, Login.class));
                 finish();
                 return true;
         }

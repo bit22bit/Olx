@@ -10,6 +10,8 @@ import retrofit2.http.GET;
 
 public interface JsonPlaceHolderApi {
 
-    @GET("posts")
-    Call<List<Posts>> getPosts();
+    String URL = "http://10.0.2.2/";
+
+    @GET("posts/")
+    Call<List<Posts>> getitems();
 }
