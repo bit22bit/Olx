@@ -7,12 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bits.olx.api_interfaces.JsonPlaceHolderApi;
 import com.bits.olx.models.Posts;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,8 +22,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.net.URI;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddPost extends AppCompatActivity {
     private Button post,read,choosebtn;
@@ -140,6 +149,50 @@ public class AddPost extends AppCompatActivity {
 
         }
     }
+
+//    void addPost()
+//    {
+//        String heading = heading.getText().toString().trim();
+//        String price = price.getText().toString().trim();
+//        String detail = detail.getText().toString().trim();
+//
+//        Posts pt = new Posts(heading,price,detail);
+//
+//        Gson gson = new Gson();
+//        String json = gson.toJson(pt);
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://10.0.2.2:3000/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+//
+//        Call<Posts> call = jsonPlaceHolderApi.getitems(pt);
+//
+//
+//
+//        call.enqueue(new Callback<Posts>() {
+//            @Override
+//            public void onResponse(Call<Posts> call, Response<Posts> response) {
+//
+//                Toast toast = Toast.makeText(AddPost.this,"Post Added", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.BOTTOM| Gravity.CENTER_HORIZONTAL, 0, 0);
+//                toast.show();
+//                startActivity(new Intent(AddPost.this,MainActivity.class));
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Posts> call, Throwable t) {
+//
+//                Toast toast = Toast.makeText(AddPost.this,t.getMessage(),Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+//                toast.show();
+//            }
+//        });
+//
+//    }
 
 
 

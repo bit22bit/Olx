@@ -1,8 +1,11 @@
 package com.bits.olx;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.bits.olx.api_interfaces.JsonPlaceHolderApi;
 import com.bits.olx.models.Posts;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -101,6 +105,25 @@ public class Record extends AppCompatActivity {
         setContentView(R.layout.activity_record);
 
         text_result = findViewById(R.id.text_result);
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_add);
+
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.nav_add: return true;
+                    case R.id.nav_posts:startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.nav_profile:startActivity(new Intent(getApplicationContext(), Profile.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(api.URL)
