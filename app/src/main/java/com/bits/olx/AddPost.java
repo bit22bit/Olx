@@ -135,9 +135,6 @@ public class AddPost extends AppCompatActivity {
 
         Posts pt = new Posts(title,prices,details);
 
-        Gson gson = new Gson();
-        String json = gson.toJson(pt);
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(api.URL)
                 .addConverterFactory(GsonConverterFactory.create())
