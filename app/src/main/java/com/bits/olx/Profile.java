@@ -36,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Profile extends AppCompatActivity {
 
     CircleImageView profile_image;
-    TextView username,name;
+    TextView username;
     Button logout;
 
     FirebaseUser firebaseUser;

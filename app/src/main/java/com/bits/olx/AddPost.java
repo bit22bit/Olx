@@ -144,21 +144,17 @@ public class AddPost extends AppCompatActivity {
 
         Call<Posts> call = jsonPlaceHolderApi.createPost(pt);
 
-
-
         call.enqueue(new Callback<Posts>() {
             @Override
             public void onResponse(Call<Posts> call, Response<Posts> response) {
-                Toast.makeText(AddPost.this,"Post Added", Toast.LENGTH_LONG).show();
-                startActivity(new Intent(AddPost.this,MainActivity.class));
-
+                if (response.isSuccessful()){
+                    startActivity(new Intent(AddPost.this,MainActivity.class));
+                }
             }
 
             @Override
             public void onFailure(Call<Posts> call, Throwable t) {
-                Toast toast = Toast.makeText(AddPost.this,t.getMessage(),Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-                toast.show();
+                Toast.makeText(AddPost.this,t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
 
