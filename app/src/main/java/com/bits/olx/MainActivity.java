@@ -36,8 +36,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private TextView tread;
-
-    private FirebaseFirestore db;
+//    private FirebaseFirestore db;
+    JsonPlaceHolderApi api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,33 +49,69 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        db = FirebaseFirestore.getInstance();
+//        db = FirebaseFirestore.getInstance();
+//
+//        db.collection("Productdetails")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()){
+//                            String results="";
+//
+//                            for(DocumentSnapshot document : task.getResult()){
+//                                Posts job = document.toObject(Posts.class);
+//                                results+=
+//                                        "\n"+job.getHeading()+
+//                                                "\nPrice :"+job.getPrice()+
+//                                                "\nDetails :"+job.getDetail()+"\n";
+//                            }
+//                            tread.setText(results);
+//                        }
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getApplicationContext(), "Error..."+e.getMessage(),Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//    }
 
-        db.collection("Productdetails")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            String results="";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(api.URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-                            for(DocumentSnapshot document : task.getResult()){
-                                Posts job = document.toObject(Posts.class);
-                                results+=
-                                        "\n"+job.getHeading()+
-                                                "\nPrice :"+job.getPrice()+
-                                                "\nDetails :"+job.getDetail()+"\n";
-                            }
-                            tread.setText(results);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error..."+e.getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                });
+        JsonPlaceHolderApi Api = retrofit.create(JsonPlaceHolderApi.class);
+        Call<List<Posts>> call = Api.getitems();
+
+        call.enqueue(new Callback<List<Posts>>() {
+            @Override
+            public void onResponse(Call<List<Posts>> call, Response<List<Posts>> response) {
+                if (!response.isSuccessful()){
+                    tread.setText("Code : "+response.code());
+                    return;
+                }
+
+                List<Posts> posts = response.body();
+                for (Posts posts1:posts){
+                    String content = "";
+                    content += "\n\n Heading: " + posts1.getHeading();
+                    content += "\nPrice: " + posts1.getPrice();
+                    content += "\nDetails: " + posts1.getDetail();
+
+                    tread.append(content);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Posts>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
+                tread.setText(t.getMessage());
+            }
+        });
+
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setSelectedItemId(R.id.nav_posts);
@@ -95,6 +131,5 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 }

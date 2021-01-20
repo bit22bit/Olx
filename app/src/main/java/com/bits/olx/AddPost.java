@@ -33,11 +33,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddPost extends AppCompatActivity {
-    private Button post,read,choosebtn;
+    private Button post,read;
     private TextView heading,price,detail;
     private  static final int PICK_IMAGE_REQUEST = 1;
 
-    private URI mImageUri;
+    JsonPlaceHolderApi api;
     FirebaseFirestore db= FirebaseFirestore.getInstance();
 
     @Override
@@ -47,16 +47,8 @@ public class AddPost extends AppCompatActivity {
         heading=findViewById(R.id.heading);
         price=findViewById(R.id.price);
         detail=findViewById(R.id.detail);
-//        choosebtn=findViewById(R.id.choose_image);
         post=findViewById(R.id.button2);
         read=findViewById(R.id.button3);
-
-//        choosebtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openFile();
-//            }
-//        });
 
         Toolbar toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
@@ -64,7 +56,7 @@ public class AddPost extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addjob();
+                addPost();
             }
         });
         read.setOnClickListener(new View.OnClickListener(){
@@ -95,21 +87,6 @@ public class AddPost extends AppCompatActivity {
         });
 
     }
-//    private void  openFile(){
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == PICK_IMAGE_REQUEST && resultCode ==  RESULT_OK && data != null && data.getData() != null){
-//            mImageUri= data.getData();
-//        }
-//    }
 
     private boolean validate(String title, String prices, String details){
         if(title.isEmpty()){
@@ -126,73 +103,69 @@ public class AddPost extends AppCompatActivity {
         }
         return false;
     }
-    private void addjob( ){
-        String title=heading.getText().toString().trim();
-        String prices=price.getText().toString().trim() ;
-        String details=detail.getText().toString().trim();
-        if( !validate(title,prices,details)){
-
-            CollectionReference dbjob=db.collection("Productdetails");
-            Posts job = new Posts(title,prices,details);
-            dbjob.add(job) .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                @Override
-                public void onSuccess(DocumentReference documentReference) {
-                    Toast.makeText(AddPost.this, "Item Added", Toast.LENGTH_LONG).show();
-                }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddPost.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-        }
-    }
-
-//    void addPost()
-//    {
-//        String heading = heading.getText().toString().trim();
-//        String price = price.getText().toString().trim();
-//        String detail = detail.getText().toString().trim();
+//    private void addjob( ){
+//        String title=heading.getText().toString().trim();
+//        String prices=price.getText().toString().trim() ;
+//        String details=detail.getText().toString().trim();
+//        if( !validate(title,prices,details)){
 //
-//        Posts pt = new Posts(heading,price,detail);
+//            CollectionReference dbjob=db.collection("Productdetails");
+//            Posts job = new Posts(title,prices,details);
+//            dbjob.add(job) .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                @Override
+//                public void onSuccess(DocumentReference documentReference) {
+//                    Toast.makeText(AddPost.this, "Item Added", Toast.LENGTH_LONG).show();
+//                }
+//            })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Toast.makeText(AddPost.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                        }
+//                    });
 //
-//        Gson gson = new Gson();
-//        String json = gson.toJson(pt);
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://10.0.2.2:3000/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-//
-//        Call<Posts> call = jsonPlaceHolderApi.getitems(pt);
-//
-//
-//
-//        call.enqueue(new Callback<Posts>() {
-//            @Override
-//            public void onResponse(Call<Posts> call, Response<Posts> response) {
-//
-//                Toast toast = Toast.makeText(AddPost.this,"Post Added", Toast.LENGTH_LONG);
-//                toast.setGravity(Gravity.BOTTOM| Gravity.CENTER_HORIZONTAL, 0, 0);
-//                toast.show();
-//                startActivity(new Intent(AddPost.this,MainActivity.class));
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Posts> call, Throwable t) {
-//
-//                Toast toast = Toast.makeText(AddPost.this,t.getMessage(),Toast.LENGTH_LONG);
-//                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
-//                toast.show();
-//            }
-//        });
-//
+//        }
 //    }
+
+    void addPost()
+    {
+        String title = heading.getText().toString().trim();
+        String prices = price.getText().toString().trim();
+        String details = detail.getText().toString().trim();
+
+        Posts pt = new Posts(title,prices,details);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(pt);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(api.URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        Call<Posts> call = jsonPlaceHolderApi.createPost(pt);
+
+
+
+        call.enqueue(new Callback<Posts>() {
+            @Override
+            public void onResponse(Call<Posts> call, Response<Posts> response) {
+                Toast.makeText(AddPost.this,"Post Added", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(AddPost.this,MainActivity.class));
+
+            }
+
+            @Override
+            public void onFailure(Call<Posts> call, Throwable t) {
+                Toast toast = Toast.makeText(AddPost.this,t.getMessage(),Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
+        });
+
+    }
 
 
 
