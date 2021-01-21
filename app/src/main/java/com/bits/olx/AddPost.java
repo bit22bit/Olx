@@ -35,7 +35,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AddPost extends AppCompatActivity {
     private Button post,read;
     private TextView heading,price,detail;
-    private  static final int PICK_IMAGE_REQUEST = 1;
 
     JsonPlaceHolderApi api;
     FirebaseFirestore db= FirebaseFirestore.getInstance();
@@ -103,29 +102,6 @@ public class AddPost extends AppCompatActivity {
         }
         return false;
     }
-//    private void addjob( ){
-//        String title=heading.getText().toString().trim();
-//        String prices=price.getText().toString().trim() ;
-//        String details=detail.getText().toString().trim();
-//        if( !validate(title,prices,details)){
-//
-//            CollectionReference dbjob=db.collection("Productdetails");
-//            Posts job = new Posts(title,prices,details);
-//            dbjob.add(job) .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                @Override
-//                public void onSuccess(DocumentReference documentReference) {
-//                    Toast.makeText(AddPost.this, "Item Added", Toast.LENGTH_LONG).show();
-//                }
-//            })
-//                    .addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            Toast.makeText(AddPost.this, e.getMessage(), Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//
-//        }
-//    }
 
     void addPost()
     {

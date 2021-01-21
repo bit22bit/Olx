@@ -36,7 +36,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private TextView tread;
-//    private FirebaseFirestore db;
     JsonPlaceHolderApi api;
 
     @Override
@@ -47,36 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-
-
-//        db = FirebaseFirestore.getInstance();
-//
-//        db.collection("Productdetails")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()){
-//                            String results="";
-//
-//                            for(DocumentSnapshot document : task.getResult()){
-//                                Posts job = document.toObject(Posts.class);
-//                                results+=
-//                                        "\n"+job.getHeading()+
-//                                                "\nPrice :"+job.getPrice()+
-//                                                "\nDetails :"+job.getDetail()+"\n";
-//                            }
-//                            tread.setText(results);
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(getApplicationContext(), "Error..."+e.getMessage(),Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//    }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(api.URL)
